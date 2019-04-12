@@ -1,7 +1,5 @@
 package location.model;
 
-import location.coordinates.Location;
-
 public class LocationModel {
 
     private String country;

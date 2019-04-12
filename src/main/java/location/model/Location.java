@@ -1,4 +1,4 @@
-package location.coordinates;
+package location.model;
 
 public class Location {
 
