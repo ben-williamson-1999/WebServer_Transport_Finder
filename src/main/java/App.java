@@ -1,6 +1,8 @@
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import database.builder.provider.DaoProvider;
+import database.dao.LocationDao;
+import json.JsonArrayCreator;
+import location.model.LocationModel;
+import org.json.simple.JSONArray;
 
 import static spark.Spark.get;
 import static spark.Spark.port;
@@ -8,21 +10,28 @@ import static spark.Spark.port;
 public class App {
 
     public static void main(String[] args){
-        System.setProperty("com.spark.shaded.eclipse.jetty.LEVEL","OFF");
+        System.setProperty("com.spark.shaded.eclipse.jetty.LEVEL", "OFF");
 
         port(8080);
 
-        get("/test", new Route(){
+        get("/stations", (request, response) -> {
 
-            @Override
-            public Object handle(Request request, Response response) throws Exception {
+            LocationDao locationDao = new DaoProvider().getDao(request.queryParams("type"));
 
-                String lat = request.queryParams("latitude");
-                String lng = request.queryParams("longitude");
-                String type = request.queryParams("type");
+            LocationModel locationModel = locationDao.getLocationModel(request.queryParams("latitude"), request.queryParams("longitude"));
 
-                return lat + " " + lng + " " + type;
-            }
+            JSONArray jsonArray = new JsonArrayCreator().createJsonFromModel(locationModel);
+
+            return jsonArray;
         });
     }
+
+    /*
+     *
+     *  need create a new dao depending on the type
+     *  then retrieve the data using a prepared java sql statement.
+     *  then create a new json creator from the data
+     *
+     */
+
 }
