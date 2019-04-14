@@ -27,11 +27,11 @@ public class DatabaseConnectionManager {
             }
 
             Connection connection = DriverManager.getConnection(url);
-
+            double cos = Math.cos(Math.toRadians(Double.parseDouble(lat)));
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setDouble(1, Double.parseDouble(lat));
             statement.setDouble(2, Double.parseDouble(lat));
-            statement.setDouble(3, Math.cos(Double.parseDouble(lng)));
+            statement.setDouble(3, cos);
             statement.setDouble(4, Double.parseDouble(lng));
             statement.setDouble(5, Double.parseDouble(lng));
             if(!stationType.equalsIgnoreCase("ALL")){
