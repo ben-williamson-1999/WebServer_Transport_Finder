@@ -1,12 +1,12 @@
 package location.model;
 
-public class Location {
+public class LatitudeAndLongitude {
 
     private double latitude;
 
     private double longitude;
 
-    public Location(String lat, String lng){
+    public LatitudeAndLongitude(String lat, String lng){
         this.latitude = Double.parseDouble(lat);
         this.longitude = Double.parseDouble(lng);
     }

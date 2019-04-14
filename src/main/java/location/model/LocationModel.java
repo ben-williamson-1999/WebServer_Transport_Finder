@@ -8,11 +8,17 @@ public class LocationModel {
 
     private String name;
 
-    private Location location;
+    private LatitudeAndLongitude latitudeAndLongitude;
 
     private String type;
 
     private String icao;
+
+    private String timeZone;
+
+    private String iata;
+
+    private String dst;
 
     public String getCountry() {
         return country;
@@ -41,12 +47,12 @@ public class LocationModel {
         return this;
     }
 
-    public Location getLocation() {
-        return location;
+    public LatitudeAndLongitude getLatitudeAndLongitude() {
+        return latitudeAndLongitude;
     }
 
-    public LocationModel setLocation(Location location) {
-        this.location = location;
+    public LocationModel setLatitudeAndLongitude(LatitudeAndLongitude latitudeAndLongitude) {
+        this.latitudeAndLongitude = latitudeAndLongitude;
         return this;
     }
 
@@ -65,6 +71,33 @@ public class LocationModel {
 
     public LocationModel setIcao(String icao) {
         this.icao = icao;
+        return this;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public LocationModel setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+        return this;
+    }
+
+    public String getIata() {
+        return iata;
+    }
+
+    public LocationModel setIata(String iata) {
+        this.iata = iata;
+        return this;
+    }
+
+    public String getDst() {
+        return dst;
+    }
+
+    public LocationModel setDst(String dst) {
+        this.dst = dst;
         return this;
     }
 }

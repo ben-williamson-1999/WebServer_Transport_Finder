@@ -2,8 +2,10 @@ package database.dao;
 
 import location.model.LocationModel;
 
+import java.util.List;
+
 public interface LocationDao {
 
-    public LocationModel getLocationModel(String lat, String lng);
+    List<LocationModel> getLocationModel(String lat, String lng);
 
 }
