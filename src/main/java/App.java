@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import java.util.List;
 
 import static spark.Spark.get;
+import static spark.Spark.notFound;
 import static spark.Spark.port;
 
 public class App {
@@ -17,14 +18,27 @@ public class App {
 
         get("/stations", (request, response) -> {
 
-            LocationDao locationDao = new DaoProvider().getDao(request.queryParams("type"));
+            try{
+                LocationDao locationDao = new DaoProvider().getDao(request.queryParams("type"));
 
-            List<LocationModel> listOfLocationModels = locationDao.getLocationModel(request.queryParams("latitude"), request.queryParams("longitude"));
+                List<LocationModel> listOfLocationModels = locationDao.getLocationModel(request.queryParams("latitude"), request.queryParams("longitude"));
 
-            JSONArray jsonArray = new JsonArrayCreator().createJsonFromModel(listOfLocationModels);
+                JSONArray jsonArray = new JsonArrayCreator().createJsonFromModel(listOfLocationModels);
 
-            return jsonArray;
+                response.raw().addHeader("Content-Type", "application/json");
+                response.raw().addHeader("Access-Control-Allow-Methods", "GET");
+                response.raw().addHeader("Access-Control-Allow-Origin", "*");
+
+                return jsonArray;
+
+            } catch (Exception e){
+                return "Please make sure you set the latitude, longitude and type parameters";
+            }
+
         });
+
+        notFound("404 Not Found");
     }
 
 }
+
