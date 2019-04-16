@@ -19,6 +19,10 @@ public class DatabaseConnectionManager {
 
         try{
 
+            if(isNumeric(lat) || isNumeric(lng)){
+                throw new NumberFormatException();
+            }
+
             if(!stationType.equalsIgnoreCase("ALL")){
                 stations = "WHERE StationType = ?";
                 this.sql = "SELECT Name, City, Country, IATA, Latitude, Longitude, Altitude, Timezone, DST, StationType, (((? - Latitude) * (? - Latitude)) + (? * ((? - Longitude) * (? - Longitude)))) AS DistanceMetric FROM stations " + stations + " ORDER BY DistanceMetric LIMIT 5;";
@@ -40,11 +44,22 @@ public class DatabaseConnectionManager {
 
             resultSet = statement.executeQuery();
 
+
+        }  catch (NumberFormatException e) {
+            throw new RuntimeException("Please make sure the latitude and longitude parameters are valid numeric values");
         } catch (Exception e){
-            System.err.println(e.getMessage());
-            // TODO change this later
+            throw new RuntimeException("There was an error when trying to get data from the database\nPlease make sure you set the latitude, longitude type parameters and the database is formatted correct");
         }
 
         return resultSet;
+    }
+
+    private boolean isNumeric(String potentialNumber){
+        try{
+            Double.parseDouble(potentialNumber);
+            return true;
+        } catch (NumberFormatException e){
+            return false;
+        }
     }
 }

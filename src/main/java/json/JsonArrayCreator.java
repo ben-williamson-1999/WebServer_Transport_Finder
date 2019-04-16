@@ -12,39 +12,44 @@ public class JsonArrayCreator {
         JSONArray array = new JSONArray();
 
         for(LocationModel locationModel : listOfLocationModel){
-            JSONObject object = new JSONObject();
+            try{
+                JSONObject object = new JSONObject();
 
-            // country
-            object.put("country", locationModel.getCountry());
-            // iata
-            if(!(locationModel.getIata().equals(""))){
-                object.put("iata", locationModel.getIata());
-            }
-            // dst
-            if(!(locationModel.getDst() == null)){
-                object.put("dst", locationModel.getDst());
-            }
-            // city
-            object.put("city", locationModel.getCity());
-            // timezone
-            object.put("timezone", locationModel.getTimeZone());
-            // name
-            object.put("name", locationModel.getName());
-            // icao
-            if(!(locationModel.getIcao() == null)){
-                object.put("icao", locationModel.getIcao());
-            }
-            // latlng
-            JSONObject latlng = new JSONObject();
-            latlng.put("latitude", String.valueOf(locationModel.getLatitudeAndLongitude().getLatitude()));
-            latlng.put("longitude", String.valueOf(locationModel.getLatitudeAndLongitude().getLongitude()));
-            object.put("location",latlng);
-            // type
-            object.put("type", locationModel.getType());
+                object.put("name", locationModel.getName());
 
-            array.add(object);
+                object.put("city", locationModel.getCity());
+
+                object.put("country", locationModel.getCountry());
+
+                if(!(locationModel.getIata().equals(""))){
+                    object.put("iata", locationModel.getIata());
+                }
+
+                if(!(locationModel.getIcao() == null)){
+                    object.put("icao", locationModel.getIcao());
+                }
+
+                JSONObject latlng = new JSONObject();
+                latlng.put("latitude", String.valueOf(locationModel.getLatitudeAndLongitude().getLatitude()));
+                latlng.put("longitude", String.valueOf(locationModel.getLatitudeAndLongitude().getLongitude()));
+                latlng.put("altitude", String.valueOf(locationModel.getLatitudeAndLongitude().getAltitude()));
+                object.put("location",latlng);
+
+                object.put("timezone", locationModel.getTimeZone());
+
+                if(!(locationModel.getDst() == null)){
+                    object.put("dst", locationModel.getDst());
+                }
+
+                object.put("type", locationModel.getType());
+
+                array.add(object);
+
+            } catch (Exception e){
+                throw new RuntimeException("There was an error when creating to JSON Array\nPlease make sure you set the latitude, longitude type parameters and the database is formatted correct");
+            }
+
         }
-
         return array;
     }
 }

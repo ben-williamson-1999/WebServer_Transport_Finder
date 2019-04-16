@@ -19,7 +19,7 @@ public class Converter {
                 LocationModel model = new LocationModel()
                         .setName(rs.getString("Name"))
                         .setType(rs.getString("StationType"))
-                        .setLatitudeAndLongitude(new LatitudeAndLongitude(rs.getString("Latitude"), rs.getString("Longitude")))
+                        .setLatitudeAndLongitude(new LatitudeAndLongitude(rs.getString("Latitude"), rs.getString("Longitude"), rs.getString("Altitude")))
                         .setCity(rs.getString("City"))
                         .setCountry(rs.getString("Country"))
                         .setTimeZone(rs.getString("Timezone"));
@@ -36,8 +36,10 @@ public class Converter {
                 modelList.add(model);
 
             }
+        } catch (NumberFormatException e){
+            throw new RuntimeException("Please make sure the latitude and longitude parameters are valid numeric values");
         } catch (Exception e){
-            e.printStackTrace();
+            throw new RuntimeException("Cant convert database data to location\nPlease make sure you set the latitude, longitude type parameters and the database is formatted correct");
         }
 
         return modelList;

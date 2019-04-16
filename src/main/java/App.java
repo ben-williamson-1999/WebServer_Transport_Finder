@@ -31,6 +31,8 @@ public class App {
 
                 return jsonArray;
 
+            } catch(RuntimeException e){
+                return e.getMessage();
             } catch (Exception e){
                 return "Please make sure you set the latitude, longitude and type parameters";
             }
@@ -41,4 +43,3 @@ public class App {
     }
 
 }
-

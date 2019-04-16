@@ -6,9 +6,12 @@ public class LatitudeAndLongitude {
 
     private double longitude;
 
-    public LatitudeAndLongitude(String lat, String lng){
+    private double altitude;
+
+    public LatitudeAndLongitude(String lat, String lng, String alt){
         this.latitude = Double.parseDouble(lat);
         this.longitude = Double.parseDouble(lng);
+        this.altitude = Double.parseDouble(alt);
     }
 
     public double getLatitude() {
@@ -17,5 +20,9 @@ public class LatitudeAndLongitude {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public double getAltitude() {
+        return altitude;
     }
 }

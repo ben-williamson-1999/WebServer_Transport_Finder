@@ -10,7 +10,7 @@ public class DaoProvider {
 
     public LocationDao getDao(String runnerType){
         if(runnerType == null){
-            return null;
+            throw new RuntimeException("Please make sure you set the latitude, longitude type parameters and the database is formatted correct");
         }
         if(runnerType.equalsIgnoreCase("STATION")){
             return new StationDao();
@@ -21,7 +21,7 @@ public class DaoProvider {
         } else if (runnerType.equalsIgnoreCase("ALL")){
             return new AllLocationsDao();
         } else {
-            return null;
+            throw new RuntimeException("Please make sure you set the latitude, longitude type parameters and the database is formatted correct");
         }
 
     }
