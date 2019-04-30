@@ -19,16 +19,11 @@ public class DatabaseConnectionManager {
 
         try{
 
-            if(isNumeric(lat) || isNumeric(lng)){
+            if(!(isNumeric(lat) || isNumeric(lng))){
                 throw new NumberFormatException();
             }
 
-            if(!stationType.equalsIgnoreCase("ALL")){
-                stations = "WHERE StationType = ?";
-                this.sql = "SELECT Name, City, Country, IATA, Latitude, Longitude, Altitude, Timezone, DST, StationType, (((? - Latitude) * (? - Latitude)) + (? * ((? - Longitude) * (? - Longitude)))) AS DistanceMetric FROM stations " + stations + " ORDER BY DistanceMetric LIMIT 5;";
-            } else {
-                this.sql = "SELECT Name, City, Country, IATA, Latitude, Longitude, Altitude, Timezone, DST, StationType, (((? - Latitude) * (? - Latitude)) + (? * ((? - Longitude) * (? - Longitude)))) AS DistanceMetric FROM stations " + stations + " ORDER BY DistanceMetric LIMIT 5;";
-            }
+            setSql(stationType);
 
             Connection connection = DriverManager.getConnection(url);
             double cos = Math.cos(Math.toRadians(Double.parseDouble(lat)));
@@ -60,6 +55,15 @@ public class DatabaseConnectionManager {
             return true;
         } catch (NumberFormatException e){
             return false;
+        }
+    }
+
+    private void setSql(String stationType){
+        if(!stationType.equalsIgnoreCase("ALL")){
+            stations = "WHERE StationType = ?";
+            this.sql = "SELECT Name, City, Country, IATA, ICAO, Latitude, Longitude, Altitude, Timezone, DST, StationType, (((? - Latitude) * (? - Latitude)) + (? * ((? - Longitude) * (? - Longitude)))) AS DistanceMetric FROM stations " + stations + " ORDER BY DistanceMetric LIMIT 5;";
+        } else {
+            this.sql = "SELECT Name, City, Country, IATA, ICAO, Latitude, Longitude, Altitude, Timezone, DST, StationType, (((? - Latitude) * (? - Latitude)) + (? * ((? - Longitude) * (? - Longitude)))) AS DistanceMetric FROM stations " + stations + " ORDER BY DistanceMetric LIMIT 5;";
         }
     }
 }

@@ -25,7 +25,7 @@ public class JsonArrayCreator {
                     object.put("iata", locationModel.getIata());
                 }
 
-                if(!(locationModel.getIcao() == null)){
+                if(!(locationModel.getIcao().equals(""))){
                     object.put("icao", locationModel.getIcao());
                 }
 
